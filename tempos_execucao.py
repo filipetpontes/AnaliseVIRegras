@@ -15,7 +15,7 @@ def duracoes_vi_regras(vi_regras):
     df_ok['Início'] = pd.to_datetime(df_ok['Início'], format='%d/%m/%Y %H:%M:%S.%f')
     df_ok['Fim'] = pd.to_datetime(df_ok['Fim'], format='%d/%m/%Y %H:%M:%S.%f')
     df_ok['Duração (ms)'] = (df_ok['Fim'] - df_ok['Início']).dt.total_seconds() * 1000
-    return df_ok
+    return df_ok[['Fluxo/Regra', 'Duração (ms)']]
 
 def to_excel(df):
     output = BytesIO()
