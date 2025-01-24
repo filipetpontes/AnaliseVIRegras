@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
+# Configura o título da página
+st.set_page_config(page_title="Comparativo VI_REGRAS", page_icon="📊")
+
 def vi_regras_to_df(vi_regras):
     vi_regras = vi_regras.replace('\r', '').replace('\n', '').replace('£', ';').replace('<##>', '\\n')
     data = [line.split(';') for line in vi_regras.split('\\n')]
@@ -44,6 +47,10 @@ def compara_tempo_vi_regras(vi_regras_1, vi_regras_2):
     # Adicionando o símbolo de porcentagem (%) aos valores da coluna "Diferença (%)"
     df_merged['Diferença (%)'] = df_merged['Diferença (%)'].astype(str) + ' %'
 
+    # Formata as colunas de duração com separador de milhar e decimal
+    df_merged['Proposta 1 (ms)'] = df_merged['Proposta 1 (ms)'].apply(lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    df_merged['Proposta 2 (ms)'] = df_merged['Proposta 2 (ms)'].apply(lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+
     return df_merged
 
 def to_excel(df):
@@ -55,7 +62,17 @@ def to_excel(df):
     return processed_data
 
 def main():
-    st.title("Comparativo")
+    st.title("Comparativo VI_REGRAS")
+
+    # Barra lateral personalizada
+    st.sidebar.title("Sobre o App")
+    st.sidebar.write("Este aplicativo foi desenvolvido para comparar os tempos de execução de fluxos/regras entre duas propostas.")
+    st.sidebar.write("**Como usar:**")
+    st.sidebar.write("1. Cole os dados da VI_REGRAS das duas propostas nos campos de texto abaixo.")
+    st.sidebar.write("2. Clique em 'Processar' para calcular os tempos de execução.")
+    st.sidebar.write("3. Baixe o resultado em Excel clicando em 'Baixar Excel'.")
+    st.sidebar.markdown("---")  # Adiciona uma linha horizontal
+    st.sidebar.write("Desenvolvido por [Seu Nome]")
 
     # Campos de entrada de texto
     vi_regras_1 = st.text_area("Proposta 1", placeholder="Cole aqui a VI_REGRAS...", height=100)
@@ -72,15 +89,18 @@ def main():
             st.dataframe(df)
 
             # Converte o DataFrame para Excel
-            excel_file = to_excel(df)
+            try:
+                excel_file = to_excel(df)
 
-            # Botão para baixar o Excel
-            st.download_button(
-                label="Baixar Excel",
-                data=excel_file,
-                file_name="comparativo.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
+                # Botão para baixar o Excel
+                st.download_button(
+                    label="Baixar Excel",
+                    data=excel_file,
+                    file_name="comparativo.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                )
+            except ImportError:
+                st.error("A biblioteca 'openpyxl' não está instalada. Por favor, instale-a com o comando: `pip install openpyxl`.")
         else:
             st.warning("Por favor, insira os dados das duas propostas.")
 
