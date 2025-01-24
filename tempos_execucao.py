@@ -2,9 +2,6 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-# Configura o título da página
-st.set_page_config(page_title="Análise VI_REGRAS", page_icon="📊")
-
 def vi_regras_to_df(vi_regras):
     vi_regras = vi_regras.replace('\r', '').replace('\n', '').replace('£', ';').replace('<##>', '\\n')
     data = [line.split(';') for line in vi_regras.split('\\n')]
@@ -21,28 +18,17 @@ def duracoes_vi_regras(vi_regras):
     return df_ok[['Fluxo/Regra', 'Duração (ms)']]
 
 def to_excel(df):
-    """Converte o DataFrame para um arquivo Excel em memória."""
     output = BytesIO()
     with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, index=False, sheet_name='Tempos de Execução')
+        df.to_excel(writer, index=False, sheet_name='Comparativo')
     processed_data = output.getvalue()
     return processed_data
 
 def main():
-    st.title("Análise VI_REGRAS")
-
-    # Barra lateral personalizada
-    st.sidebar.title("Sobre o App")
-    st.sidebar.write("Este aplicativo foi desenvolvido para analisar os tempos de execução de fluxos/regras a partir de dados da VI_REGRAS.")
-    st.sidebar.write("**Como usar:**")
-    st.sidebar.write("1. Cole os dados da VI_REGRAS no campo de texto abaixo.")
-    st.sidebar.write("2. Clique em 'Processar' para calcular os tempos de execução.")
-    st.sidebar.write("3. Baixe o resultado em Excel clicando em 'Baixar Excel'.")
-    st.sidebar.markdown("---")  # Adiciona uma linha horizontal
-    st.sidebar.write("Desenvolvido por [Seu Nome]")
+    st.title("Tempos de Execução")
 
     # Campos de entrada de texto
-    vi_regras = st.text_area("Cole aqui a VI_REGRAS", placeholder="Cole aqui a VI_REGRAS...", height=100)
+    vi_regras = st.text_area("Proposta", placeholder="Cole aqui a VI_REGRAS...", height=100)
 
     # Botão para processar os dados
     if st.button("Processar"):
@@ -51,24 +37,20 @@ def main():
             df = duracoes_vi_regras(vi_regras)
 
             # Exibe a tabela na interface
-            st.write("### Resultado dos Tempos de Execução")
             st.dataframe(df)
 
             # Converte o DataFrame para Excel
-            try:
-                excel_file = to_excel(df)
+            excel_file = to_excel(df)
 
-                # Botão para baixar o Excel
-                st.download_button(
-                    label="Baixar Excel",
-                    data=excel_file,
-                    file_name="tempos_execucao.xlsx",
-                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                )
-            except ImportError:
-                st.error("A biblioteca 'openpyxl' não está instalada. Por favor, instale-a com o comando: `pip install openpyxl`.")
+            # Botão para baixar o Excel
+            st.download_button(
+                label="Baixar Excel",
+                data=excel_file,
+                file_name="tempos_execucao.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
         else:
-            st.warning("Por favor, insira os dados da VI_REGRAS.")
+            st.warning("Por favor, insira os dados das duas propostas.")
 
 if __name__ == "__main__":
     main()
