@@ -55,14 +55,14 @@ def to_excel(df):
     return processed_data
 
 def main():
-    st.title("NeuroAnáliseVIRegras")
+    st.title("Comparativo")
 
     # Campos de entrada de texto
     vi_regras_1 = st.text_area("Proposta 1", placeholder="Cole aqui a VI_REGRAS...", height=100)
     vi_regras_2 = st.text_area("Proposta 2", placeholder="Cole aqui a VI_REGRAS...", height=100)
 
     # Botão para processar os dados
-    if st.button("Gerar Tabela"):
+    if st.button("Processar"):
         if vi_regras_1 and vi_regras_2:
             # Processa os dados e gera o DataFrame
             df = compara_tempo_vi_regras(vi_regras_1, vi_regras_2)
