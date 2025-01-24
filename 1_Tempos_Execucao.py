@@ -22,7 +22,9 @@ def duracoes_vi_regras(vi_regras):
 
 def formatar_numero(valor):
     """Formata o número com separador de milhar como ponto e decimal como vírgula."""
-    return f"{valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    valor_str = f"{valor:,.2f}"  # Formata com vírgula como separador de milhar e ponto como decimal
+    valor_str = valor_str.replace(",", "X").replace(".", ",").replace("X", ".")  # Troca vírgula por ponto e ponto por vírgula
+    return valor_str
 
 def to_excel(df):
     """Converte o DataFrame para um arquivo Excel em memória."""
