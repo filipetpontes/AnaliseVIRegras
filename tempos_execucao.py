@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
+# Configura o título da página
+st.set_page_config(page_title="Análise VI_REGRAS", page_icon="📊")
+
 def vi_regras_to_df(vi_regras):
     vi_regras = vi_regras.replace('\r', '').replace('\n', '').replace('£', ';').replace('<##>', '\\n')
     data = [line.split(';') for line in vi_regras.split('\\n')]
@@ -26,7 +29,7 @@ def to_excel(df):
     return processed_data
 
 def main():
-    st.title("Tempos de Execução")
+    st.title("Análise VI_REGRAS")
 
     # Barra lateral personalizada
     st.sidebar.title("Sobre o App")
