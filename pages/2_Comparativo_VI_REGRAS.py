@@ -36,8 +36,8 @@ def compara_tempo_vi_regras(vi_regras_1, vi_regras_2):
     # Renomeando as colunas
     df_merged = df_merged.rename(columns={
         'FLUXO': 'Fluxo/Regra',
-        'DURACAO_1': 'Proposta 1 (ms)',
-        'DURACAO_2': 'Proposta 2 (ms)',
+        'DURACAO_1': 'Proposta DR (ms)',
+        'DURACAO_2': 'Proposta Vivaldi (ms)',
         'DIFERENCA (%)': 'Diferença (%)'
     })
 
@@ -58,8 +58,8 @@ def main():
     st.title("Comparativo")
 
     # Campos de entrada de texto
-    vi_regras_1 = st.text_area("Proposta 1", placeholder="Cole aqui a VI_REGRAS...", height=100)
-    vi_regras_2 = st.text_area("Proposta 2", placeholder="Cole aqui a VI_REGRAS...", height=100)
+    vi_regras_1 = st.text_area("Proposta DR", placeholder="Cole aqui a VI_REGRAS...", height=100)
+    vi_regras_2 = st.text_area("Proposta Vivaldi", placeholder="Cole aqui a VI_REGRAS...", height=100)
 
     # Botão para processar os dados
     if st.button("Processar"):
