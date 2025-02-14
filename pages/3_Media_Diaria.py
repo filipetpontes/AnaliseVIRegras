@@ -15,28 +15,28 @@ def gera_grafico(df, dias_selecionados):
         df_filtrado,
         x='dia',
         y='duracao (ms)',
-        title='Boxplot da Duração por Dia',
+        title='Dispersão da Duração por Dia',
         labels={'duracao (ms)': 'Duração (ms)', 'dia': 'Dia'},
         points="all"  # Mostra todos os pontos de dados
     )
 
     # Adicionar informações de volume e média ao gráfico
-    for i, row in contagem_por_dia.iterrows():
-        fig.add_annotation(
-            x=row['dia'],
-            y=df_filtrado['duracao (ms)'].min() * 0.9,  # Posiciona a anotação abaixo do gráfico
-            text=f"Volume: {row['duracao (ms)']}",
-            showarrow=False,
-            font=dict(color='red')
-        )
-    for i, row in media_por_dia.iterrows():
-        fig.add_annotation(
-            x=row['dia'],
-            y=df_filtrado['duracao (ms)'].min() * 0.8,  # Posiciona a anotação abaixo do gráfico
-            text=f"Média: {row['duracao (ms)']:.2f}",
-            showarrow=False,
-            font=dict(color='blue')
-        )
+    # for i, row in contagem_por_dia.iterrows():
+    #     fig.add_annotation(
+    #         x=row['dia'],
+    #         y=df_filtrado['duracao (ms)'].min() * 0.9,  # Posiciona a anotação abaixo do gráfico
+    #         text=f"Volume: {row['duracao (ms)']}",
+    #         showarrow=False,
+    #         font=dict(color='red')
+    #     )
+    # for i, row in media_por_dia.iterrows():
+    #     fig.add_annotation(
+    #         x=row['dia'],
+    #         y=df_filtrado['duracao (ms)'].min() * 0.8,  # Posiciona a anotação abaixo do gráfico
+    #         text=f"Média: {row['duracao (ms)']:.2f}",
+    #         showarrow=False,
+    #         font=dict(color='blue')
+    #     )
 
     # Configurar o layout do gráfico
     fig.update_layout(
@@ -54,13 +54,13 @@ def gera_grafico(df, dias_selecionados):
     st.dataframe(contagem_por_dia)
 
 def main():
-    st.title("Média Diária")
+    st.title("Dispersão Diária")
 
     uploaded_files = st.file_uploader(
-        "Escolha os arquivos CSV",
+        "",
         type=["csv"],
         accept_multiple_files=True,
-        help="Selecione um ou mais arquivos CSV para upload"
+        help="Selecione um ou mais arquivos CSV para upload\nEsses arquivos podem ser gerados no Diagnóstico > Gráficos > Taxa de Duração de Propostas"
     )
 
     if uploaded_files:
