@@ -9,8 +9,8 @@ def gera_grafico(df, agrupamento, dias_selecionados=None, horas_selecionadas=Non
         x_axis = 'dia'
         title = 'Dispersão da Duração por Dia'
     else:
-        df_filtrado = df[df['hora'].isin(horas_selecionadas)]
-        x_axis = 'hora'
+        df_filtrado = df[df['data_hora'].isin(horas_selecionadas)]
+        x_axis = 'data_hora'
         title = 'Dispersão da Duração por Hora'
 
     fig = px.box(
@@ -18,12 +18,12 @@ def gera_grafico(df, agrupamento, dias_selecionados=None, horas_selecionadas=Non
         x=x_axis,
         y='duracao (ms)',
         title=title,
-        labels={'duracao (ms)': 'Duração (ms)', x_axis: x_axis.capitalize()},
+        labels={'duracao (ms)': 'Duração (ms)', x_axis: 'Data e Hora'},
         hover_data={'duracao (ms)': True, x_axis: True},
     )
 
     fig.update_layout(
-        xaxis_title=x_axis.capitalize(),
+        xaxis_title='Data e Hora',
         yaxis_title='Duração (ms)',
         xaxis_tickangle=-45,
         showlegend=False
@@ -42,16 +42,19 @@ def main():
 
     caminho_imagem = os.path.join("duvida.png")
 
-    with st.expander("Dúvidas?"):
-        st.markdown("""
-        **Como usar :**
-        1. Acesse o Diagnóstico > Gráficos
-        2. Faça o filtro desejado
-        3. Selecione o tipo de gráfico 'Taxa de Duração de Propostas'
-        4. Gere o gráfico
-        5. Faça o download:
-        """)
-        st.image(caminho_imagem)
+    if os.path.exists(caminho_imagem):
+        with st.expander("Dúvidas?"):
+            st.markdown("""
+            **Como usar :**
+            1. Acesse o Diagnóstico > Gráficos
+            2. Faça o filtro desejado
+            3. Selecione o tipo de gráfico 'Taxa de Duração de Propostas'
+            4. Gere o gráfico
+            5. Faça o download:
+            """)
+            st.image(caminho_imagem)
+    else:
+        st.warning("Arquivo de imagem 'duvida.png' não encontrado.")
 
     if uploaded_files:
         dfs = []
@@ -67,13 +70,16 @@ def main():
             df_concatenado = pd.concat(dfs, ignore_index=True)
 
             df_concatenado['data'] = pd.to_datetime(df_concatenado['data'], format='%d/%m/%Y %H:%M:%S.%f')
+
             df_concatenado['dia'] = df_concatenado['data'].dt.strftime('%d-%m-%Y')
             df_concatenado['hora'] = df_concatenado['data'].dt.strftime('%H:00')
+            df_concatenado['data_hora'] = df_concatenado['data'].dt.strftime('%d/%m %H:00')  # Combina data e hora
+
             df_concatenado = df_concatenado.sort_values(by='data')
 
             st.session_state['df'] = df_concatenado
             st.session_state['dias_disponiveis'] = df_concatenado['dia'].unique()
-            st.session_state['horas_disponiveis'] = df_concatenado['hora'].unique()
+            st.session_state['horas_disponiveis'] = df_concatenado['data_hora'].unique()
 
             if 'df' in st.session_state and 'dias_disponiveis' in st.session_state and 'horas_disponiveis' in st.session_state:
                 agrupamento = st.radio(
