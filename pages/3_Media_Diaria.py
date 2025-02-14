@@ -19,8 +19,7 @@ def gera_grafico(df, agrupamento, dias_selecionados=None, horas_selecionadas=Non
         y='duracao (ms)',
         title=title,
         labels={'duracao (ms)': 'Duração (ms)', x_axis: 'Data e Hora'},
-        hover_data={'duracao (ms)': True, x_axis: True},
-        points="all"
+        hover_data={'duracao (ms)': True, x_axis: True}
     )
 
     fig.update_layout(
