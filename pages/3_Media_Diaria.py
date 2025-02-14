@@ -50,32 +50,32 @@ def main():
         help="Selecione um ou mais arquivos CSV para upload"
     )
 
-    dataframes = {}
+    # dataframes = {}
     
-    if uploaded_files:
-        for uploaded_file in uploaded_files:
-            try:
-                df = pd.read_csv(uploaded_file)
+    # if uploaded_files:
+    #     for uploaded_file in uploaded_files:
+    #         try:
+    #             df = pd.read_csv(uploaded_file)
                 
-                # Armazena o DataFrame no dicionário usando o nome do arquivo como chave
-                dataframes[uploaded_file.name] = df
+    #             # Armazena o DataFrame no dicionário usando o nome do arquivo como chave
+    #             dataframes[uploaded_file.name] = df
                 
-                # Mostra mensagem de sucesso
-                st.success(f"Arquivo {uploaded_file.name} carregado com sucesso!")
+    #             # Mostra mensagem de sucesso
+    #             st.success(f"Arquivo {uploaded_file.name} carregado com sucesso!")
                 
-                # Mostra um preview dos dados
-                st.subheader(f"Pré-visualização: {uploaded_file.name}")
-                st.dataframe(df.head())
+    #             # Mostra um preview dos dados
+    #             st.subheader(f"Pré-visualização: {uploaded_file.name}")
+    #             st.dataframe(df.head())
                 
-            except Exception as e:
-                st.error(f"Erro ao ler o arquivo {uploaded_file.name}: {e}")
-    else:
-        st.warning("Nenhum arquivo foi carregado ainda.")
+    #         except Exception as e:
+    #             st.error(f"Erro ao ler o arquivo {uploaded_file.name}: {e}")
+    # else:
+    #     st.warning("Nenhum arquivo foi carregado ainda.")
 
-    if dataframes:
-        st.subheader("Arquivos Carregados:")
-        for filename in dataframes:
-            st.write(f"- {filename} ({len(dataframes[filename])} linhas)")
+    # if dataframes:
+    #     st.subheader("Arquivos Carregados:")
+    #     for filename in dataframes:
+    #         st.write(f"- {filename} ({len(dataframes[filename])} linhas)")
     # if st.button("Processar"):
         
 
