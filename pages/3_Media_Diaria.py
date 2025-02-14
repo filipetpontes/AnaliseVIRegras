@@ -3,10 +3,8 @@ import pandas as pd
 import plotly.express as px
 
 def gera_grafico(df, dias_selecionados):
-    # Filtra os dados com base nos dias selecionados
     df_filtrado = df[df['dia'].isin(dias_selecionados)]
 
-    # Criar o boxplot com Plotly
     fig = px.box(
         df_filtrado,
         x='dia',
@@ -22,7 +20,6 @@ def gera_grafico(df, dias_selecionados):
         showlegend=False
     )
 
-    # Exibir o gráfico no Streamlit
     st.plotly_chart(fig)
 
 def main():
@@ -41,36 +38,27 @@ def main():
         for uploaded_file in uploaded_files:
             try:
                 df = pd.read_csv(uploaded_file, sep=';')
-                dfs.append(df)  # Adiciona o DataFrame à lista
+                dfs.append(df)
             except Exception as e:
                 st.error(f"Erro ao ler o arquivo {uploaded_file.name}: {e}")
 
-        # Concatena todos os DataFrames em um único DataFrame
         if dfs:
             df_concatenado = pd.concat(dfs, ignore_index=True)
 
-            # Processamento dos dados
             df_concatenado['data'] = pd.to_datetime(df_concatenado['data'], format='%d/%m/%Y %H:%M:%S.%f')
             df_concatenado['dia'] = df_concatenado['data'].dt.strftime('%d-%m-%Y')
             df_concatenado = df_concatenado.sort_values(by='data')
 
-            # Exibe o DataFrame concatenado (opcional, para debug)
-            st.dataframe(df_concatenado)
-
-            # Armazena o DataFrame e as datas disponíveis na sessão
             st.session_state['df'] = df_concatenado
             st.session_state['dias_disponiveis'] = df_concatenado['dia'].unique()
 
-            # Verifica se o DataFrame e os dias estão na sessão
             if 'df' in st.session_state and 'dias_disponiveis' in st.session_state:
-                # Filtro de dias
                 dias_selecionados = st.multiselect(
                     "Selecione os dias para filtrar o gráfico",
                     options=st.session_state['dias_disponiveis'],
-                    default=st.session_state['dias_disponiveis']  # Todos os dias selecionados por padrão
+                    default=st.session_state['dias_disponiveis']
                 )
 
-                # Gera o gráfico com os dias selecionados
                 if dias_selecionados:
                     gera_grafico(st.session_state['df'], dias_selecionados)
                 else:
