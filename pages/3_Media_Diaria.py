@@ -32,11 +32,10 @@ def main():
         "",
         type=["csv"],
         accept_multiple_files=True,
-        help="Selecione um ou mais arquivos CSV para upload\nEsses arquivos podem ser gerados no Diagnóstico > Gráficos > Taxa de Duração de Propostas"
+        help="Selecione um ou mais arquivos CSV para upload. Esses arquivos podem ser gerados no Diagnóstico > Gráficos > Taxa de Duração de Propostas"
     )
 
     if uploaded_files:
-        # Lista para armazenar todos os DataFrames
         dfs = []
 
         for uploaded_file in uploaded_files:
@@ -54,7 +53,7 @@ def main():
             df_concatenado['data'] = pd.to_datetime(df_concatenado['data'], format='%d/%m/%Y %H:%M:%S.%f')
             df_concatenado['dia'] = df_concatenado['data'].dt.strftime('%d-%m-%Y')
             df_concatenado = df_concatenado.sort_values(by='data')
-
+            st.dataframe(df_concatenado)
             # Gerar gráfico inicial com todos os dias
             if st.button(f"Processar"):
                 st.session_state['df'] = df_concatenado  # Armazena o DataFrame na sessão
