@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import os
 
 def gera_grafico(df, dias_selecionados):
     # Filtra os dados com base nos dias selecionados
@@ -34,6 +35,8 @@ def gera_grafico(df, dias_selecionados):
 def main():
     st.title("Dispersão Diária dos Tempos")
 
+    caminho_imagem = os.path.join("duvida.png")
+
     # Seção de Dúvidas ou Ajuda
     with st.expander("Dúvidas? Clique aqui para ajuda"):
         st.markdown("""
@@ -48,7 +51,8 @@ def main():
         - **Problemas ao carregar arquivos**: Verifique se os arquivos estão no formato correto e se não estão corrompidos.
         - **Como interpretar o gráfico**: O gráfico é um boxplot, que mostra a distribuição da duração das propostas. A linha central representa a mediana, e as caixas representam os quartis.
         """)
-        st.image('duvida.png')
+        st.image(caminho_imagem)
+
     uploaded_files = st.file_uploader(
         "",
         type=["csv"],
