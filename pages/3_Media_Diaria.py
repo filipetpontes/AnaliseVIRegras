@@ -73,13 +73,8 @@ def main():
                 df['dia'] = df['data'].dt.strftime('%d-%m-%Y')
                 df = df.sort_values(by='data')
 
-                # Exibir prévia dos dados
-                st.success(f"Arquivo {uploaded_file.name} carregado com sucesso!")
-                st.subheader(f"Pré-visualização: {uploaded_file.name}")
-                st.dataframe(df.head())
-
                 # Gerar gráfico inicial com todos os dias
-                if st.button(f"Gerar Gráfico Inicial para {uploaded_file.name}"):
+                if st.button(f"Processar"):
                     st.session_state['df'] = df  # Armazena o DataFrame na sessão
                     st.session_state['dias_disponiveis'] = df['dia'].unique()  # Armazena os dias disponíveis
 
