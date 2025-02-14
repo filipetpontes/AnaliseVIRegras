@@ -53,11 +53,13 @@ def main():
             df_concatenado['data'] = pd.to_datetime(df_concatenado['data'], format='%d/%m/%Y %H:%M:%S.%f')
             df_concatenado['dia'] = df_concatenado['data'].dt.strftime('%d-%m-%Y')
             df_concatenado = df_concatenado.sort_values(by='data')
+
+            # Exibe o DataFrame concatenado (opcional, para debug)
             st.dataframe(df_concatenado)
-            # Gerar gráfico inicial com todos os dias
-            if st.button(f"Processar"):
-                st.session_state['df'] = df_concatenado  # Armazena o DataFrame na sessão
-                st.session_state['dias_disponiveis'] = df_concatenado['dia'].unique()  # Armazena os dias disponíveis
+
+            # Armazena o DataFrame e as datas disponíveis na sessão
+            st.session_state['df'] = df_concatenado
+            st.session_state['dias_disponiveis'] = df_concatenado['dia'].unique()
 
             # Verifica se o DataFrame e os dias estão na sessão
             if 'df' in st.session_state and 'dias_disponiveis' in st.session_state:
