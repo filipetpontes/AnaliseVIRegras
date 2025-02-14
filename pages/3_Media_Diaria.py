@@ -70,10 +70,8 @@ def main():
             try:
                 df = pd.read_csv(uploaded_file, sep=';')
                 st.success(f"Arquivo {uploaded_file.name} carregado com sucesso!")
-                st.subheader(f"Pré-visualização: {uploaded_file.name}")
-                st.dataframe(df.head())
 
-                if st.button(f"Gerar Boxplot para {uploaded_file.name}"):
+                if st.button(f"Processar"):
                     gera_grafico(df)
 
             except Exception as e:
