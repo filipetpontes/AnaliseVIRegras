@@ -102,8 +102,7 @@ def main():
                 else:
                     horas_selecionadas = st.multiselect(
                         "Selecione as horas para filtrar o gráfico",
-                        options=st.session_state['horas_disponiveis'],
-                        default=st.session_state['horas_disponiveis']
+                        options=st.session_state['horas_disponiveis']
                     )
                     if horas_selecionadas:
                         gera_grafico(st.session_state['df'], agrupamento, horas_selecionadas=horas_selecionadas)
