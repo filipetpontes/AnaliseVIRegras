@@ -17,7 +17,7 @@ def gera_grafico(df, dias_selecionados):
         y='duracao (ms)',
         title='Dispersão da Duração por Dia',
         labels={'duracao (ms)': 'Duração (ms)', 'dia': 'Dia'},
-        points="all"  # Mostra todos os pontos de dados
+        # points="all"  # Mostra todos os pontos de dados
     )
 
     # Adicionar informações de volume e média ao gráfico
