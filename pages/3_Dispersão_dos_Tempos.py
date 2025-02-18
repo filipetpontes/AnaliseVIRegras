@@ -23,7 +23,7 @@ def gera_grafico(df, agrupamento, dias_selecionados=None, horas_selecionadas=Non
     )
 
     fig.update_layout(
-        xaxis_title='Data e Hora',
+        xaxis_title='Período',
         yaxis_title='Duração (ms)',
         xaxis_tickangle=-45,
         showlegend=False
@@ -73,7 +73,7 @@ def main():
 
             df_concatenado['dia'] = df_concatenado['data'].dt.strftime('%d-%m-%Y')
             df_concatenado['hora'] = df_concatenado['data'].dt.strftime('%H:00')
-            df_concatenado['data_hora'] = df_concatenado['data'].dt.strftime('%d/%m %H:00')  # Combina data e hora
+            df_concatenado['data_hora'] = df_concatenado['data'].dt.strftime('%d/%m/%Y %H:00')  # Combina data e hora
 
             df_concatenado = df_concatenado.sort_values(by='data')
 
